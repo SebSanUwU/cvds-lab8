@@ -31,6 +31,4 @@ jobs:
           path: target/site/serenity/           # Path to test results
      
 
-  test:
-    runs-on: ubuntu-latest
   
