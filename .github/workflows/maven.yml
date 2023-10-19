@@ -39,7 +39,7 @@ jobs:
     - name: Build with Maven
       run: mvn verify
   deploy:
-   needs: build
+   needs: test
    runs-on: ubuntu-latest
     
    steps:
