@@ -26,6 +26,13 @@ public class Employee {
     @Column(name = "SALARY")
     public Double salary;
 
+    @Column(name = "COMPANY")
+    public String company;
+
+    @Column(name = "SEX")
+    public String sex;
+
+
     public Employee() {
     }
 
@@ -35,7 +42,21 @@ public class Employee {
         this.lastName = lastName;
         this.role = role;
         this.salary = salary;
+        this.company = null;
+        this.sex = null;
     }
+
+    public Employee(Long employeeId, String firstName, String lastName, String role, Double salary,String company,String sex) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.salary = salary;
+        this.company = company;
+        this.sex = sex;
+    }
+
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -55,6 +76,14 @@ public class Employee {
 
     public void setEmployeeId(Long id) {
         this.employeeId = id;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public Long getEmployeeId() {
@@ -78,11 +107,25 @@ public class Employee {
         return salary;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public String getSex() {
+        return sex;
+    }
 
     @Override
     public String toString() {
-        return "Employee [employeeId = " + employeeId + ", firstName = " + firstName + ", lastName = " + lastName
-                + ", role = " + role + ", salary = " + salary + "]";
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role='" + role + '\'' +
+                ", salary=" + salary +
+                ", company='" + company + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
     }
 }
 

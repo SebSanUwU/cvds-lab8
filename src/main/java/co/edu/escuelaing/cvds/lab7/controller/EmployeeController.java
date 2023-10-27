@@ -54,4 +54,15 @@ public class EmployeeController {
         return "redirect:/employees/list";
     }
 
+    @GetMapping("/analitica")
+    public String mostrarAnaliticaEmpleados(Model model){
+        model.addAttribute("empleados",employeeService.getAllEmployees());
+        return "analitica";
+    }
+
+    @GetMapping("/api")
+    public List<Employee> obtenerTodosLosEmpleados() {
+        return employeeService.getAllEmployees();
+    }
+
 }

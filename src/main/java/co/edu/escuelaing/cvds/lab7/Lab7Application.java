@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class Lab7Application {
 	@Autowired
@@ -31,6 +33,12 @@ public class Lab7Application {
 			System.out.println("\nGetting all configurations....");
 			configurationService.getAllConfigurations().forEach(configuration -> System.out.println(configuration));
 
+			System.out.println("Adding Employees....");
+			try {
+				employeeService.cargarDatosDesdeJSON("src/main/resources/data/MOCK_DATA.json");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		};
 	}
 
