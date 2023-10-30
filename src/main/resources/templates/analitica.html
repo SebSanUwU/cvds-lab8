@@ -1,183 +1,95 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/general.html::headerfiles('Employees insights page')"></th:block>
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Employees insights</title>
-
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" >
-
-        // Load the Visualization API and the corechart package.
-        google.charts.load('current', {'packages':['corechart']});
-
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.charts.setOnLoadCallback(drawChart1);
-        google.charts.setOnLoadCallback(drawChart2);
-        google.charts.setOnLoadCallback(drawChart3);
-        google.charts.setOnLoadCallback(drawChart4);
-        google.charts.setOnLoadCallback(drawChart5);
-
-        // Callback that creates and populates a data table,
-        // instantiates the pie chart, passes in the data and
-        // draws it.
-        function drawChart1() {
-
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-          data.addRows([
-            ['Mushrooms', 3],
-            ['Onions', 1],
-            ['Olives', 1],
-            ['Zucchini', 1],
-            ['Pepperoni', 2]
-          ]);
-
-          // Set chart options
-          var options = {'title':'Histograma de Salario',
-                         'width':400,
-                         'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart1_div'));
-          chart.draw(data, options);
-        }
-
-        function drawChart2() {
-
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-          data.addRows([
-            ['Mushrooms', 3],
-            ['Onions', 1],
-            ['Olives', 1],
-            ['Zucchini', 1],
-            ['Pepperoni', 2]
-          ]);
-
-          // Set chart options
-          var options = {'title':'Número de empleados por empresa',
-                         'width':400,
-                         'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart2_div'));
-          chart.draw(data, options);
-        }
-
-        function drawChart3() {
-
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-          data.addRows([
-            ['Mushrooms', 3],
-            ['Onions', 1],
-            ['Olives', 1],
-            ['Zucchini', 1],
-            ['Pepperoni', 2]
-          ]);
-
-          // Set chart options
-          var options = {'title':'Salario promedio por empresa',
-                         'width':400,
-                         'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart3_div'));
-          chart.draw(data, options);
-        }
-
-        function drawChart4() {
-
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-          data.addRows([
-            ['Mushrooms', 3],
-            ['Onions', 1],
-            ['Olives', 1],
-            ['Zucchini', 1],
-            ['Pepperoni', 2]
-          ]);
-
-          // Set chart options
-          var options = {'title':'Gastos en salario de las empresas registras en el sistema',
-                         'width':400,
-                         'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart4_div'));
-          chart.draw(data, options);
-        }
-
-        function drawChart5() {
-
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-
-          fetch('/employees/api')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(empleados) {
-                empleados.forEach(function(empleado) {
-                data.addRow([empleado.firstName, empleado.salary]);
-              });
-
-              var options = {
-                title: 'Salarios de Empleados',
-                width: 600,
-                height: 400
-              };
-
-              var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-              chart.draw(data, options);
-            })
-            .catch(function(error) {
-              console.error('Error al cargar los datos de empleados: ', error);
-          });
-
-
-          // Set chart options
-          var options = {'title':'Persona por sexo en la base de datos',
-                         'width':400,
-                         'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart5_div'));
-          chart.draw(data, options);
-        }
-    </script>
+    <meta charset="ISO-8859-1">
+    <title>Google Charts Example - Spring Boot</title>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-<main>
-    <!--Div that will hold the pie chart-->
-    <div id="chart1_div"></div>
-    <div id="chart2_div"></div>
-    <div id="chart3_div"></div>
-    <div id="chart4_div"></div>
-    <div id="chart5_div"></div>
-</main>
-<footer th:replace="fragments/general::empty-footer"></footer>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<div align="center" style="width: 1000px;">
+    <h2>Analitica de datos sobre los empleados de la lista</h2>
+    <div id="piechartemployees" style="width: 900px; height: 500px;"></div>
+    <div id="salarypromchart" style="width: 900px; height: 500px;"></div>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+</div>
+<script th:inline="javascript">
+    var real_data = /*[[${chartData}]]*/'noValue';
+    var employeesCount_data = /*[[${pieCountData}]]*/'noValue';
+    var salaryProm_data = /*[[${salaryPromData}]]*/'noValue';
+    $(document).ready(function() {
+        google.charts.load('current', {
+            packages : [ 'corechart', 'bar' ]
+        });
+        google.charts.setOnLoadCallback(drawPieChartCountEmployees);
+        google.charts.setOnLoadCallback(drawPieChart);
+        google.charts.setOnLoadCallback(drawPieChartSalaryProm);
+    });
+
+    function drawPieChartSalaryProm() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Empresas');
+        data.addColumn('number', 'Salary');
+
+        Object.keys(salaryProm_data).forEach(function(key) {
+            data.addRow([ key, salaryProm_data[key] ]);
+        });
+
+        var options = {
+            title : 'Numero de empleados por empresa',
+            hAxis : {
+                title : 'Salario promedio',
+            },
+            vAxis : {
+                title : 'Empresas'
+            }
+        };
+        var chart = new google.visualization.BarChart(document
+                .getElementById('salarypromchart'));
+        chart.draw(data, options);
+    }
+
+    function drawPieChartCountEmployees() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Empresas');
+        data.addColumn('number', 'People');
+
+        Object.keys(employeesCount_data).forEach(function(key) {
+            data.addRow([ key, employeesCount_data[key] ]);
+        });
+
+        var options = {
+            title : 'Numero de empleados por empresa',
+            hAxis : {
+                title : 'Empresas',
+            },
+            vAxis : {
+                title : 'Numero de empleados'
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document
+                .getElementById('piechartemployees'));
+        chart.draw(data, options);
+    }
+    function drawPieChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Sex');
+        data.addColumn('number', 'People');
+        Object.keys(real_data).forEach(function(key) {
+            data.addRow([ key, real_data[key] ]);
+        });
+        var options = {
+            title : 'Persona por sexo en la base de datos'
+        };
+        var chart = new google.visualization.PieChart(document
+                .getElementById('piechart'));
+        chart.draw(data, options);
+    }
+
+</script>
 </body>
 </html>
