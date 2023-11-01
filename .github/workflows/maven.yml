@@ -41,17 +41,28 @@ jobs:
   deploy:
    needs: test
    runs-on: ubuntu-latest
+   environment:
+     name: 'Production'
+     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Message
-      run: echo "En construcción ..."
+     - name: Download artifact from build job
+       uses: actions/download-artifact@v3
+       with:
+         name: java-app
+
+     - name: Deploy to Azure Web App
+       id: deploy-to-webapp
+       uses: azure/webapps-deploy@v2
+       with:
+         app-name: 'JuanCamargo'
+         slot-name: 'Production'
+         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5E0D45E7096D4BC0930CEEAD9E585F3C }}
+         package: '*.jar'
+
+
+
+
  
    
 
