@@ -22,6 +22,12 @@ jobs:
     
     - name: Build with Maven
       run: mvn compile
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: java-app
+        path: '${{ github.workspace }}/target/*.jar'
  
   test:
   
@@ -38,13 +44,14 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn verify
+
   deploy:
    needs: test
    runs-on: ubuntu-latest
    environment:
      name: 'Production'
      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
    steps:
      - name: Download artifact from build job
        uses: actions/download-artifact@v3
@@ -55,9 +62,9 @@ jobs:
        id: deploy-to-webapp
        uses: azure/webapps-deploy@v2
        with:
-         app-name: 'JuanCamargo'
+         app-name: 'cvds-lab-08'
          slot-name: 'Production'
-         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5E0D45E7096D4BC0930CEEAD9E585F3C }}
+         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CA5450AB92D4FB8AF8F7A659F582158 }}
          package: '*.jar'
 
 
