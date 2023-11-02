@@ -46,26 +46,19 @@ jobs:
       run: mvn verify
 
   deploy:
-   needs: test
-   runs-on: ubuntu-latest
-   environment:
-     name: 'Production'
-     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    needs: test
+    runs-on: ubuntu-latest
 
-   steps:
-     - name: Download artifact from build job
-       uses: actions/download-artifact@v3
-       with:
-         name: java-app
-
-     - name: Deploy to Azure Web App
-       id: deploy-to-webapp
-       uses: azure/webapps-deploy@v2
-       with:
-         app-name: 'cvds-lab-08'
-         slot-name: 'Production'
-         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CA5450AB92D4FB8AF8F7A659F582158 }}
-         package: '*.jar'
+    steps:
+        - uses: actions/checkout@v3
+        - name: Set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+            cache: maven
+        - name: Build with Message
+          run: echo "En construcción ..."
 
 
 

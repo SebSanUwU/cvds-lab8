@@ -114,6 +114,18 @@ public class EmployeeController {
         });
         model.addAttribute("salaryPromData", graphDataCompanySalaryProm);
 
+        //Salario inversion por empresa
+        Map<String, Float> graphDataCompanySalary = new TreeMap<>();
+        companyData.forEach((key, value) -> {
+            final float[] aux = {0};
+            value.forEach(empleado -> {
+                aux[0] +=empleado.getSalary();
+            });
+
+            graphDataCompanySalaryProm.put(key,aux[0]);
+        });
+        model.addAttribute("salaryData", graphDataCompanySalary);
+
         return "analitica";
     }
 

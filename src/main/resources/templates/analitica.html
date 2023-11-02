@@ -13,24 +13,27 @@
 <body>
 <div align="center" style="width: 1000px;">
     <h2>Analitica de datos sobre los empleados de la lista</h2>
-    <div id="piechartemployees" style="width: 900px; height: 500px;"></div>
+    <div id="employeeschart" style="width: 900px; height: 500px;"></div>
     <div id="salarypromchart" style="width: 900px; height: 500px;"></div>
+    <div id="salarychart" style="width: 900px; height: 500px;"></div>
     <div id="piechart" style="width: 900px; height: 500px;"></div>
 </div>
 <script th:inline="javascript">
     var real_data = /*[[${chartData}]]*/'noValue';
     var employeesCount_data = /*[[${pieCountData}]]*/'noValue';
     var salaryProm_data = /*[[${salaryPromData}]]*/'noValue';
+    var salary_data = /*[[${salaryData}]]*/'noValue';
     $(document).ready(function() {
         google.charts.load('current', {
             packages : [ 'corechart', 'bar' ]
         });
-        google.charts.setOnLoadCallback(drawPieChartCountEmployees);
+        google.charts.setOnLoadCallback(drawChartCountEmployees);
         google.charts.setOnLoadCallback(drawPieChart);
-        google.charts.setOnLoadCallback(drawPieChartSalaryProm);
+        google.charts.setOnLoadCallback(drawChartSalaryProm);
+        google.charts.setOnLoadCallback(drawChartProm);
     });
 
-    function drawPieChartSalaryProm() {
+    function drawChartSalaryProm() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Empresas');
         data.addColumn('number', 'Salary');
@@ -53,7 +56,7 @@
         chart.draw(data, options);
     }
 
-    function drawPieChartCountEmployees() {
+    function drawChartCountEmployees() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Empresas');
         data.addColumn('number', 'People');
@@ -72,9 +75,27 @@
             }
         };
         var chart = new google.visualization.ColumnChart(document
-                .getElementById('piechartemployees'));
+                .getElementById('employeeschart'));
         chart.draw(data, options);
     }
+
+    function drawChartSalary() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Empresas');
+        data.addColumn('number', 'Salary investment');
+
+        Object.keys(salary_data).forEach(function(key) {
+            data.addRow([ key, salary_data[key] ]);
+        });
+
+        var options = {
+            title : 'Gastos en salario de las empresas registras en el sistema'
+        };
+        var chart = new google.visualization.ColumnChart(document
+                .getElementById('salarychart'));
+        chart.draw(data, options);
+    }
+
     function drawPieChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Sex');
@@ -89,6 +110,7 @@
                 .getElementById('piechart'));
         chart.draw(data, options);
     }
+
 
 </script>
 </body>
