@@ -122,9 +122,17 @@ public class EmployeeController {
                 aux[0] +=empleado.getSalary();
             });
 
-            graphDataCompanySalaryProm.put(key,aux[0]);
+            graphDataCompanySalary.put(key,aux[0]);
         });
         model.addAttribute("salaryData", graphDataCompanySalary);
+
+        //Histograma de salario de empleados
+        Map<String, Double> graphDataEmployeeSalary = new TreeMap<>();
+
+        empleados.forEach(employee -> {
+            graphDataEmployeeSalary.put(employee.getFirstName(),employee.getSalary());
+        });
+        model.addAttribute("employeeSalaryData", graphDataEmployeeSalary);
 
         return "analitica";
     }

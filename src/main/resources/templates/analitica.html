@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Google Charts Example - Spring Boot</title>
+    <title>Analítica</title>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet"
@@ -13,6 +13,7 @@
 <body>
 <div align="center" style="width: 1000px;">
     <h2>Analitica de datos sobre los empleados de la lista</h2>
+    <div id="histogramchart" style="width: 900px; height: 500px;"></div>
     <div id="employeeschart" style="width: 900px; height: 500px;"></div>
     <div id="salarypromchart" style="width: 900px; height: 500px;"></div>
     <div id="salarychart" style="width: 900px; height: 500px;"></div>
@@ -23,6 +24,8 @@
     var employeesCount_data = /*[[${pieCountData}]]*/'noValue';
     var salaryProm_data = /*[[${salaryPromData}]]*/'noValue';
     var salary_data = /*[[${salaryData}]]*/'noValue';
+    var employeesalary_data = /*[[${employeeSalaryData}]]*/'noValue';
+
     $(document).ready(function() {
         google.charts.load('current', {
             packages : [ 'corechart', 'bar' ]
@@ -30,8 +33,34 @@
         google.charts.setOnLoadCallback(drawChartCountEmployees);
         google.charts.setOnLoadCallback(drawPieChart);
         google.charts.setOnLoadCallback(drawChartSalaryProm);
-        google.charts.setOnLoadCallback(drawChartProm);
+        google.charts.setOnLoadCallback(drawChartSalary);
+        google.charts.setOnLoadCallback(drawChartHistogramSalary);
     });
+
+    function drawChartHistogramSalary() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Empleados');
+        data.addColumn('number', 'Salary');
+
+        Object.keys(employeesalary_data).forEach(function(key) {
+            data.addRow([ key, employeesalary_data[key] ]);
+        });
+
+        var options = {
+            title : 'Histograma de Salario',
+            hAxis : {
+                title : 'Rango',
+            },
+            vAxis : {
+                title : 'Frecuencia'
+            },
+            colors: ['green']
+        };
+        var chart = new google.visualization.Histogram(document
+                .getElementById('histogramchart'));
+        chart.draw(data, options);
+    }
+
 
     function drawChartSalaryProm() {
         var data = new google.visualization.DataTable();
@@ -91,7 +120,7 @@
         var options = {
             title : 'Gastos en salario de las empresas registras en el sistema'
         };
-        var chart = new google.visualization.ColumnChart(document
+        var chart = new google.visualization.PieChart(document
                 .getElementById('salarychart'));
         chart.draw(data, options);
     }
