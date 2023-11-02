@@ -2,70 +2,69 @@ name: Build and Test Java Spring Boot Application
  
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
- 
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
   build:
- 
     runs-on: ubuntu-latest
- 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    
-    - name: Build with Maven
-      run: mvn compile
 
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: java-app
-        path: '${{ github.workspace }}/target/*.jar'
- 
-  test:
-  
-    needs: build
-    runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn verify
+      - uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.jar'
+
+  test:
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: test with Maven
+        run: mvn clean verify
 
   deploy:
-   needs: test
-   runs-on: ubuntu-latest
-   environment:
-     name: 'Production'
-     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    runs-on: ubuntu-latest
+    needs: test
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-   steps:
-     - name: Download artifact from build job
-       uses: actions/download-artifact@v3
-       with:
-         name: java-app
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: java-app
 
-     - name: Deploy to Azure Web App
-       id: deploy-to-webapp
-       uses: azure/webapps-deploy@v2
-       with:
-         app-name: 'cvds-lab-08'
-         slot-name: 'Production'
-         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CA5450AB92D4FB8AF8F7A659F582158 }}
-         package: '*.jar'
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'JuanCamargo'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5E0D45E7096D4BC0930CEEAD9E585F3C }}
+          package: '*.jar'
 
 
 
